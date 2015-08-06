@@ -93,7 +93,7 @@ class base_events implements EventSubscriberInterface
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
 
-			if($this->user->data['user_id'] == $row['topic_last_poster_id'] && $row['topic_last_post_time'] + $this->min_wait_time < time())
+			if($this->user->data['user_id'] == $row['topic_last_poster_id'] && $row['topic_last_post_time'] + $this->min_wait_time > time())
 			{
 				$event['is_authed'] = false;
 			}
