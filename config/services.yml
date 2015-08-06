@@ -1,0 +1,13 @@
+parameters:
+    phpbbde.denyreply.min_wait_time: 3600
+services:
+    phpbbde.denyreply.base_listener:
+        class: phpbbde\denyreply\event\base_events
+        arguments:
+            - @auth
+            - @dbal.conn
+            - @template
+            - @user
+            - %phpbbde.denyreply.min_wait_time%
+        tags:
+            - { name: event.listener }
