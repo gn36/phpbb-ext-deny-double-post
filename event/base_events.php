@@ -53,7 +53,7 @@ class base_events implements EventSubscriberInterface
 	 * @param unknown $phpbb_root_path
 	 * @param unknown $php_ext
 	 */
-	public function __construct(\phpbb\auth\auth $auth,\phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, $min_wait_time)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\template\template $template, \phpbb\user $user, $min_wait_time)
 	{
 		$this->template = $template;
 		$this->user = $user;
@@ -64,12 +64,12 @@ class base_events implements EventSubscriberInterface
 
 	public function viewtopic_remove_button($event)
 	{
-		if($this->auth->acl_get('m_', $event['forum_id']))
+		if ($this->auth->acl_get('m_', $event['forum_id']))
 		{
 			return;
 		}
 
-		if($event['topic_data']['topic_last_poster_id'] == $this->user->data['user_id'] && $event['topic_data']['topic_last_post_time'] + $this->min_wait_time > time())
+		if ($event['topic_data']['topic_last_poster_id'] == $this->user->data['user_id'] && $event['topic_data']['topic_last_post_time'] + $this->min_wait_time > time())
 		{
 			$this->template->assign_vars(array(
 				'S_DISPLAY_REPLY_INFO' 	=> false,
@@ -80,12 +80,12 @@ class base_events implements EventSubscriberInterface
 
 	public function posting_deny($event)
 	{
-		if($this->auth->acl_get('m_', $event['forum_id']))
+		if ($this->auth->acl_get('m_', $event['forum_id']))
 		{
 			return;
 		}
 
-		if($event['mode'] == 'reply')
+		if ($event['mode'] == 'reply')
 		{
 			// Since this is not provided by the event even though it is there, we will need to fetch it
 			$sql = 'SELECT topic_last_poster_id, topic_last_post_time FROM ' . TOPICS_TABLE . ' WHERE topic_id = ' . $event['topic_id'];
@@ -93,7 +93,7 @@ class base_events implements EventSubscriberInterface
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
 
-			if($this->user->data['user_id'] == $row['topic_last_poster_id'] && $row['topic_last_post_time'] + $this->min_wait_time > time())
+			if ($this->user->data['user_id'] == $row['topic_last_poster_id'] && $row['topic_last_post_time'] + $this->min_wait_time > time())
 			{
 				$event['is_authed'] = false;
 			}
