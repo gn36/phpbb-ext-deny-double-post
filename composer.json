@@ -21,7 +21,7 @@
 		"phpbb/epv": "dev-master"
 	},
 	"extra": {
-		"display-name": "phpBB.de - Denyreply",
+		"display-name": "phpBB.de - Deny double posts",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.1.2,<3.2.*@dev"
 		}
