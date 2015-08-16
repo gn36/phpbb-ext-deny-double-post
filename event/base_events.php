@@ -85,7 +85,7 @@ class base_events implements EventSubscriberInterface
 			return;
 		}
 
-		if ($event['mode'] == 'reply')
+		if (in_array($event['mode'], array('reply', 'quote', 'bump'))
 		{
 			// Since this is not provided by the event even though it is there, we will need to fetch it
 			$sql = 'SELECT topic_last_poster_id, topic_last_post_time FROM ' . TOPICS_TABLE . ' WHERE topic_id = ' . $event['topic_id'];
